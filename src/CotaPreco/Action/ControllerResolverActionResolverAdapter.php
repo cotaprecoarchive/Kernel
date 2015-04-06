@@ -8,7 +8,7 @@ use Symfony\Component\HttpKernel\Controller\ControllerResolverInterface;
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
  */
-class ControllerResolverActionResolverAdapter implements
+final class ControllerResolverActionResolverAdapter implements
     ControllerResolverInterface
 {
     /**
