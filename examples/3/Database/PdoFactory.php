@@ -6,7 +6,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
  */
-class PDOFactory implements FactoryInterface
+class PdoFactory implements FactoryInterface
 {
     /**
      * @param  ServiceLocatorInterface $serviceLocator
