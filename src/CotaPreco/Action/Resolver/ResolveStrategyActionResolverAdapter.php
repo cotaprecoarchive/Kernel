@@ -35,6 +35,10 @@ class ResolveStrategyActionResolverAdapter implements ResolveStrategyInterface
      */
     public function canResolve($action)
     {
+        if (! is_string($action)) {
+            return false;
+        }
+
         if (isset($this->alreadyResolvedActions[$action])) {
             return true;
         }
