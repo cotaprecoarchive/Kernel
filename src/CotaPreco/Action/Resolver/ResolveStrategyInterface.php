@@ -1,6 +1,7 @@
 <?php
 
 namespace CotaPreco\Action\Resolver;
+
 use CotaPreco\Action\ExecutableHttpActionInterface;
 
 /**
