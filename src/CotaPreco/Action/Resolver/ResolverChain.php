@@ -3,6 +3,7 @@
 namespace CotaPreco\Action\Resolver;
 
 use CotaPreco\Action\ActionResolverInterface;
+use CotaPreco\Action\Exception\UnresolveableActionException;
 
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
@@ -24,24 +25,27 @@ class ResolverChain implements ActionResolverInterface
 
     /**
      * {@inheritDoc}
+     *
+     * @throws UnresolveableActionException quando não for possível encontrar
+     * um resolver para `$action`
      */
     public function resolve($action)
     {
         /* @var ResolveStrategyInterface[] $candidates */
         $candidates = array_filter(
             $this->strategies,
-            function (ResolveStrategyInterface $strategy) use ($action) {
-                return $strategy->canResolve($action);
+            function (ResolveStrategyInterface $resolver) use ($action) {
+                return $resolver->canResolve($action);
             }
         );
 
         /* @var ResolveStrategyInterface|null $resolver */
         $resolver = current($candidates);
 
-        if (! is_null($resolver)) {
+        if ($resolver) {
             return $resolver->resolve($action);
         }
 
-        // TODO: UnresolveableActionException?
+        throw new UnresolveableActionException();
     }
 }
