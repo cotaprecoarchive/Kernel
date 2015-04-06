@@ -33,7 +33,7 @@ final class ControllerResolverActionResolverAdapter implements
             /* @var ExecutableHttpActionInterface $action */
             $action = $this->resolver->resolve($request->attributes->get('action'));
 
-            return function(Request $request) use ($action) {
+            return function (Request $request) use ($action) {
                 return $action->execute($request);
             };
         }
