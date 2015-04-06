@@ -10,7 +10,7 @@ use CotaPreco\Action\Exception\ActionNotFoundException;
 interface ActionResolverInterface
 {
     /**
-     * @throws ActionNotFoundException quando não for possível resolver `$action`
+     * @throws ActionNotFoundException when `$action` cannot be resolved
      * @param  string $action
      * @return ExecutableHttpActionInterface
      */
