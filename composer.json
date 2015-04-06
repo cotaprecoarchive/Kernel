@@ -1,0 +1,22 @@
+{
+    "name": "cotapreco/kernel",
+    "description": "Experimental stuff on top of `Symfony/HttpKernel`",
+    "authors": [{
+        "name": "Andrey K.",
+        "email": "andreykvital@gmail.com"
+    }],
+    "require": {
+        "php": "~5.5",
+        "symfony/http-kernel": "~2.6",
+        "symfony/routing": "~2.6",
+        "zendframework/zend-servicemanager": "~2.3"
+    },
+    "autoload": {
+        "psr-0": {
+            "CotaPreco": [
+                "src",
+                "tests"
+            ]
+        }
+    }
+}
