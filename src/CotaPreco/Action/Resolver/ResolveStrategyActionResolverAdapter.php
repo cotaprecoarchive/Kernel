@@ -3,8 +3,8 @@
 namespace CotaPreco\Action\Resolver;
 
 use CotaPreco\Action\ActionResolverInterface;
+use CotaPreco\Action\Exception\ActionNotExecutableException;
 use CotaPreco\Action\Exception\ActionNotFoundException;
-use CotaPreco\Action\Exception\NotExecutableException;
 
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
@@ -37,7 +37,7 @@ final class ResolveStrategyActionResolverAdapter implements
         try {
             $this->resolver->resolve($action);
         } catch (\Exception $e) {
-            $isNotExecutable = $e instanceof NotExecutableException;
+            $isNotExecutable = $e instanceof ActionNotExecutableException;
             $isNotFound      = $e instanceof ActionNotFoundException;
 
             if ($isNotExecutable || $isNotFound) {

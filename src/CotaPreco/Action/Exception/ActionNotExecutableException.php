@@ -5,6 +5,6 @@ namespace CotaPreco\Action\Exception;
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
  */
-class NotExecutableException extends \RuntimeException
+class ActionNotExecutableException extends \RuntimeException
 {
 }

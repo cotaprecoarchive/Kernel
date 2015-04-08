@@ -10,6 +10,9 @@ use Symfony\Component\HttpFoundation\Request;
 class CallableExecutableHttpActionAdapter implements
     ExecutableHttpActionInterface
 {
+    /**
+     * @var callable
+     */
     private $callable;
 
     /**
