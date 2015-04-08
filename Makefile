@@ -1,4 +1,7 @@
 phpcs:
 	@./vendor/bin/phpcs --standard=PSR2 src
 
-.PHONY: phpcs
+tests:
+	@./vendor/bin/phpunit tests
+
+.PHONY: phpcs tests
