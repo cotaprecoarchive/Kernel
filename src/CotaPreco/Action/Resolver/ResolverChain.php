@@ -39,7 +39,7 @@ class ResolverChain implements ActionResolverInterface
             }
         );
 
-        /* @var ResolveStrategyInterface|null $resolver */
+        /* @var ResolveStrategyInterface|false $resolver */
         $resolver = current($candidates);
 
         if ($resolver) {
