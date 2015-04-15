@@ -49,27 +49,20 @@ class Application implements ApplicationHttpKernelInterface
     }
 
     /**
-     * @param EventDispatcherInterface $eventDispatcher
-     * @param RouteCollection          $routeCollection
-     */
-    private function injectRouteListener(
-        EventDispatcherInterface $eventDispatcher,
-        RouteCollection          $routeCollection
-    ) {
-        $context = new RequestContext();
-        $matcher = new UrlMatcher($routeCollection, $context);
-
-        $eventDispatcher->addSubscriber(new RouterListener($matcher));
-    }
-
-    /**
      * {@inheritDoc}
      */
     public function handle(Request $request)
     {
-        $this->injectRouteListener(
-            $this->eventDispatcher,
-            $this->routeCollection
+        $context = new RequestContext();
+        $context->fromRequest($request);
+
+        $this->eventDispatcher->addSubscriber(
+            new RouterListener(
+                new UrlMatcher(
+                    $this->routeCollection,
+                    $context
+                )
+            )
         );
 
         $resolver = $this->actionResolver;
