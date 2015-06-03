@@ -1,10 +1,15 @@
 {
     "name": "cotapreco/kernel",
     "description": "Experimental stuff on top of `Symfony/HttpKernel`",
-    "authors": [{
-        "name": "Andrey K.",
-        "email": "andreykvital@gmail.com"
-    }],
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Andrey Knupp Vital",
+            "email": "andreykvital@gmail.com",
+            "homepage": "https://github.com/CentaurWarchief"
+        }
+    ],
     "require": {
         "php": "~5.5",
         "symfony/http-kernel": "~2.6",
@@ -17,10 +22,12 @@
     },
     "autoload": {
         "psr-0": {
-            "CotaPreco": [
-                "src",
-                "tests"
-            ]
+            "CotaPreco": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-0": {
+            "CotaPreco": "tests"
         }
     }
 }
