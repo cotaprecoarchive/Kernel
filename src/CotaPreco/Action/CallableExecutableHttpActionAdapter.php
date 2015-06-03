@@ -28,9 +28,9 @@ class CallableExecutableHttpActionAdapter implements
      */
     public function execute(Request $request)
     {
-        /* @var callable $callback */
-        $callback = $this->callable;
+        /* @var callable $callable */
+        $callable = $this->callable;
 
-        return $callback($request);
+        return $callable($request);
     }
 }

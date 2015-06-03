@@ -29,14 +29,16 @@ final class ControllerResolverActionResolverAdapter implements
      */
     public function getController(Request $request)
     {
-        if ($request->attributes->has('action')) {
-            /* @var ExecutableHttpActionInterface $action */
-            $action = $this->resolver->resolve($request->attributes->get('action'));
-
-            return function (Request $request) use ($action) {
-                return $action->execute($request);
-            };
+        if (! $request->attributes->has('action')) {
+            return null;
         }
+
+        /* @var ExecutableHttpActionInterface $action */
+        $action = $this->resolver->resolve($request->attributes->get('action'));
+
+        return function (Request $request) use ($action) {
+            return $action->execute($request);
+        };
     }
 
     /**

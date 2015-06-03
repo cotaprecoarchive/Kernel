@@ -25,9 +25,6 @@ class ResolverChain implements ActionResolverInterface
 
     /**
      * {@inheritDoc}
-     *
-     * @throws UnresolveableActionException when none of available strategies
-     * can resolve `$action`
      */
     public function resolve($action)
     {

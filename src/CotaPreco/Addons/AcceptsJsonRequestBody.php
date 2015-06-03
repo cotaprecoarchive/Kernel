@@ -30,10 +30,10 @@ final class AcceptsJsonRequestBody implements EventSubscriberInterface
         /* @var Request $request */
         $request = $event->getRequest();
 
-        /* @var string[] $acceptableContentTypes */
-        $acceptableContentTypes = $request->getAcceptableContentTypes();
+        /* @var string[] $acceptableTypes */
+        $acceptableTypes = $request->getAcceptableContentTypes();
 
-        if (! in_array('application/json', $acceptableContentTypes, true)) {
+        if (! in_array('application/json', $acceptableTypes, true)) {
             return;
         }
 

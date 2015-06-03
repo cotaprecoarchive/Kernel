@@ -16,21 +16,14 @@ final class AcceptsOnlyJson implements EventSubscriberInterface
     /**
      * @var Response
      */
-    private $responseWhenNotAcceptable;
+    private $responseToSend;
 
     /**
-     * @param Response $notAcceptableResponse
+     * @param Response $preferredResponse
      */
-    public function __construct(Response $notAcceptableResponse = null)
+    public function __construct(Response $preferredResponse = null)
     {
-        $emptyNotAcceptableResponse = new Response(
-            null,
-            Response::HTTP_NOT_ACCEPTABLE
-        );
-
-        $this->responseWhenNotAcceptable = (
-            $notAcceptableResponse ?: $emptyNotAcceptableResponse
-        );
+        $this->responseToSend = $preferredResponse ?: new Response(null, Response::HTTP_NOT_ACCEPTABLE);
     }
 
     /**
@@ -52,17 +45,15 @@ final class AcceptsOnlyJson implements EventSubscriberInterface
             return;
         }
 
-        $acceptHeaderAsString = $event->getRequest()->headers->get('Accept');
+        $accept = AcceptHeader::fromString($event->getRequest()->headers->get('Accept'));
 
-        $accept = AcceptHeader::fromString($acceptHeaderAsString);
+        $acceptsAny  = $accept->has('*/*');
+        $acceptsJson = $accept->has('application/json');
 
-        $acceptsAnyContentType  = $accept->has('*/*');
-        $acceptsApplicationJson = $accept->has('application/json');
-
-        if ($acceptsAnyContentType || $acceptsApplicationJson) {
+        if ($acceptsAny || $acceptsJson) {
             return;
         }
 
-        $event->setResponse($this->responseWhenNotAcceptable);
+        $event->setResponse($this->responseToSend);
     }
 }
