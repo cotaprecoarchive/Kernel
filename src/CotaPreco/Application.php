@@ -58,17 +58,13 @@ class Application implements ApplicationHttpKernelInterface
 
         $this->eventDispatcher->addSubscriber(
             new RouterListener(
-                new UrlMatcher(
-                    $this->routeCollection,
-                    $context
-                )
+                new UrlMatcher($this->routeCollection, $context)
             )
         );
 
-        $resolver = $this->actionResolver;
-        $kernel   = new HttpKernel(
+        $kernel = new HttpKernel(
             $this->eventDispatcher,
-            new ControllerResolverActionResolverAdapter($resolver)
+            new ControllerResolverActionResolverAdapter($this->actionResolver)
         );
 
         $response = $kernel->handle($request);
