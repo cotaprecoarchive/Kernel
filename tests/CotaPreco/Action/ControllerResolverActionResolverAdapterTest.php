@@ -8,8 +8,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
- * @coversDefaultClass CotaPreco\Action\ControllerResolverActionResolverAdapter
- * @covers ::__construct
  */
 class ControllerResolverActionResolverAdapterTest extends TestCase
 {
@@ -18,44 +16,49 @@ class ControllerResolverActionResolverAdapterTest extends TestCase
      */
     private $emptyRequest;
 
+    /**
+     * {@inheritDoc}
+     */
     protected function setUp()
     {
         $this->emptyRequest = Request::create('/');
     }
 
     /**
-     * @covers ::getController
+     * @test
      */
-    public function testGetControllerReturnsNull()
+    public function getControllerReturnsNull()
     {
         $attributes = $this->getMock(ParameterBag::class);
+
         $attributes->expects($this->once())
             ->method('has')
             ->will($this->returnValue(false));
 
-        $request = $this->emptyRequest;
-        $request->attributes = $attributes;
+        $this->emptyRequest->attributes = $attributes;
 
         /* @var ActionResolverInterface $resolver */
         $resolver = $this->getMock(ActionResolverInterface::class);
 
         $adapter = new ControllerResolverActionResolverAdapter($resolver);
 
-        $this->assertNull($adapter->getController($request));
+        $this->assertNull($adapter->getController($this->emptyRequest));
     }
 
     /**
-     * @covers ::getController
+     * @test
      */
-    public function testGetControllerReturnsCallable()
+    public function getControllerReturnsCallable()
     {
         $executableHttpAction = $this->getMock(ExecutableHttpActionInterface::class);
+
         $executableHttpAction->expects($this->once())
             ->method('execute')
             ->will($this->returnValue(true));
 
         /* @var ActionResolverInterface $resolver */
         $resolver = $this->getMock(ActionResolverInterface::class);
+
         $resolver->expects($this->once())
             ->method('resolve')
             ->will($this->returnValue($executableHttpAction));
@@ -79,9 +82,9 @@ class ControllerResolverActionResolverAdapterTest extends TestCase
     }
 
     /**
-     * @covers ::getArguments
+     * @test
      */
-    public function testGetArgumentsAlwaysReturnRequest()
+    public function getArgumentsReturnsRequest()
     {
         /* @var ActionResolverInterface $resolver */
         $resolver = $this->getMock(ActionResolverInterface::class);

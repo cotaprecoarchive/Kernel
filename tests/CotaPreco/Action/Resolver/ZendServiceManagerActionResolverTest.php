@@ -10,32 +10,38 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
- * @coversDefaultClass CotaPreco\Action\Resolver\ZendServiceManagerActionResolver
- * @covers ::resolve
- * @covers ::__construct
  */
 class ZendServiceManagerActionResolverTest extends TestCase
 {
-    public function testResolveThrowsActionNotFound()
+    /**
+     * @test
+     */
+    public function resolveThrowsActionNotFound()
     {
         $this->setExpectedException(ActionNotFoundException::class);
 
         /* @var ServiceLocatorInterface|\PHPUnit_Framework_MockObject_MockObject $serviceLocator */
         $serviceLocator = $this->getMock(ServiceLocatorInterface::class);
+
         $serviceLocator->expects($this->once())
             ->method('has')
             ->will($this->returnValue(false));
 
         $resolver = new ZendServiceManagerActionResolver($serviceLocator);
+
         $resolver->resolve(null);
     }
 
-    public function testResolveThrowsNotExecutableException()
+    /**
+     * @test
+     */
+    public function resolveThrowsNotExecutableException()
     {
         $this->setExpectedException(ActionNotExecutableException::class);
 
         /* @var ServiceLocatorInterface|\PHPUnit_Framework_MockObject_MockObject $serviceLocator */
         $serviceLocator = $this->getMock(ServiceLocatorInterface::class);
+
         $serviceLocator->expects($this->once())
             ->method('has')
             ->will($this->returnValue(true));
@@ -45,15 +51,20 @@ class ZendServiceManagerActionResolverTest extends TestCase
             ->will($this->returnValue(new \stdClass()));
 
         $resolver = new ZendServiceManagerActionResolver($serviceLocator);
+
         $resolver->resolve(null);
     }
 
-    public function testResolveReturnsExecutableHttpAction()
+    /**
+     * @test
+     */
+    public function resolveReturnsExecutableHttpAction()
     {
         $executableHttpAction = $this->getMock(ExecutableHttpActionInterface::class);
 
         /* @var ServiceLocatorInterface|\PHPUnit_Framework_MockObject_MockObject $serviceLocator */
         $serviceLocator = $this->getMock(ServiceLocatorInterface::class);
+
         $serviceLocator->expects($this->once())
             ->method('has')
             ->will($this->returnValue(true));
@@ -63,8 +74,10 @@ class ZendServiceManagerActionResolverTest extends TestCase
             ->will($this->returnValue($executableHttpAction));
 
         $resolver = new ZendServiceManagerActionResolver($serviceLocator);
-        $action   = $resolver->resolve(null);
 
-        $this->assertInstanceOf(ExecutableHttpActionInterface::class, $action);
+        $this->assertInstanceOf(
+            ExecutableHttpActionInterface::class,
+            $resolver->resolve(null)
+        );
     }
 }

@@ -16,6 +16,9 @@ class CallableActionResolveStrategyTest extends TestCase
      */
     private $strategy;
 
+    /**
+     * {@inheritDoc}
+     */
     protected function setUp()
     {
         $this->strategy = new CallableActionResolveStrategy();
@@ -51,17 +54,17 @@ class CallableActionResolveStrategyTest extends TestCase
      * @dataProvider provideActions
      * @param string $action
      * @param bool   $canResolve
-     * @covers ::canResolve
+     * @test
      */
-    public function testCanResolve($action, $canResolve)
+    public function canResolve($action, $canResolve)
     {
         $this->assertSame($canResolve, $this->strategy->canResolve($action));
     }
 
     /**
-     * @covers ::resolve
+     * @test
      */
-    public function testResolveReturnsExecutableHttpAction()
+    public function resolveReturnsExecutableHttpAction()
     {
         $resolved = $this->strategy->resolve($this->emptyFunction());
 

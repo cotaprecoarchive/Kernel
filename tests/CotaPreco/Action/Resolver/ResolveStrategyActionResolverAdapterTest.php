@@ -10,15 +10,13 @@ use PHPUnit_Framework_TestCase as TestCase;
 
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
- * @coversDefaultClass CotaPreco\Action\Resolver\ResolveStrategyActionResolverAdapter
- * @covers ::__construct
  */
 class ResolveStrategyActionResolverAdapterTest extends TestCase
 {
     /**
-     * @covers ::canResolve
+     * @test
      */
-    public function testCanResolveReturnsFalse()
+    public function canResolveReturnsFalse()
     {
         /* @var ActionResolverInterface|\PHPUnit_Framework_MockObject_MockObject $resolver */
         $resolver = $this->getMock(ActionResolverInterface::class);
@@ -37,16 +35,16 @@ class ResolveStrategyActionResolverAdapterTest extends TestCase
 
         $adapter = new ResolveStrategyActionResolverAdapter($resolver);
 
-        $this->assertFalse($adapter->canResolve(null)); // ! is_string
-        $this->assertFalse($adapter->canResolve(''));   // at(0)
-        $this->assertFalse($adapter->canResolve(''));   // at(1)
-        $this->assertTrue($adapter->canResolve(''));    // at(2)
+        $this->assertFalse($adapter->canResolve(null));
+        $this->assertFalse($adapter->canResolve(''));
+        $this->assertFalse($adapter->canResolve(''));
+        $this->assertTrue($adapter->canResolve(''));
     }
 
     /**
-     * @covers ::canResolve
+     * @test
      */
-    public function testCanResolveReturnsTrue()
+    public function canResolve()
     {
         /* @var ExecutableHttpActionInterface $action */
         $action = $this->getMock(ExecutableHttpActionInterface::class);
@@ -65,9 +63,9 @@ class ResolveStrategyActionResolverAdapterTest extends TestCase
     }
 
     /**
-     * @covers ::resolve
+     * @test
      */
-    public function testResolveReturnsResolvedAction()
+    public function resolveReturnsResolvedAction()
     {
         $action = $this->getMock(ExecutableHttpActionInterface::class);
 
