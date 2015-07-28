@@ -14,10 +14,10 @@ class ResolveableActionRouteTest extends TestCase
      */
     public function supportsFqcn()
     {
-        $action = new ResolveableActionRoute('GET', '/', \stdClass::class);
+        $action = new ResolveableActionRoute('POST', '/', \stdClass::class);
 
         $this->assertSame(\stdClass::class, $action->getDefault('action'));
-        $this->assertSame('GET', $action->getMethods()[0]);
+        $this->assertSame('POST', $action->getMethods()[0]);
         $this->assertSame('/', $action->getPath());
     }
 
@@ -26,13 +26,12 @@ class ResolveableActionRouteTest extends TestCase
      */
     public function supportsCallable()
     {
-        $emptyFunction = function() {
-        };
+        $emptyFunction = function() {};
 
-        $action = new ResolveableActionRoute('GET', '/', $emptyFunction);
+        $action = new ResolveableActionRoute('POST', '/', $emptyFunction);
 
         $this->assertSame($emptyFunction, $action->getDefault('action'));
-        $this->assertSame('GET', $action->getMethods()[0]);
+        $this->assertSame('POST', $action->getMethods()[0]);
         $this->assertSame('/', $action->getPath());
     }
 }

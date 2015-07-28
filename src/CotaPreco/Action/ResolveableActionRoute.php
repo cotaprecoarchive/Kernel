@@ -32,9 +32,9 @@ use Symfony\Component\Routing\Route;
 final class ResolveableActionRoute extends Route
 {
     /**
-     * @param string $method
-     * @param array  $path
-     * @param array  $action
+     * @param string          $method
+     * @param array           $path
+     * @param string|callable $action
      */
     public function __construct($method, $path, $action)
     {

@@ -17,7 +17,7 @@ class ControllerResolverActionResolverAdapterTest extends TestCase
     private $emptyRequest;
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function setUp()
     {
@@ -29,13 +29,7 @@ class ControllerResolverActionResolverAdapterTest extends TestCase
      */
     public function getControllerReturnsNull()
     {
-        $attributes = $this->getMock(ParameterBag::class);
-
-        $attributes->expects($this->once())
-            ->method('has')
-            ->will($this->returnValue(false));
-
-        $this->emptyRequest->attributes = $attributes;
+        $this->emptyRequest->attributes = new ParameterBag();
 
         /* @var ActionResolverInterface $resolver */
         $resolver = $this->getMock(ActionResolverInterface::class);
@@ -50,41 +44,32 @@ class ControllerResolverActionResolverAdapterTest extends TestCase
      */
     public function getControllerReturnsCallable()
     {
-        $executableHttpAction = $this->getMock(ExecutableHttpActionInterface::class);
+        $action = $this->getMock(ExecutableHttpActionInterface::class);
 
-        $executableHttpAction->expects($this->once())
-            ->method('execute')
-            ->will($this->returnValue(true));
-
-        /* @var ActionResolverInterface $resolver */
+        /* @var \PHPUnit_Framework_MockObject_MockObject|ActionResolverInterface $resolver */
         $resolver = $this->getMock(ActionResolverInterface::class);
 
         $resolver->expects($this->once())
-            ->method('resolve')
-            ->will($this->returnValue($executableHttpAction));
-
-        $attributes = $this->getMock(ParameterBag::class);
-
-        $attributes->expects($this->once())
-            ->method('has')
-            ->will($this->returnValue(true));
-
-        $attributes->expects($this->once())->method('get');
+            ->method('__invoke')
+            ->will($this->returnValue($action));
 
         $request = $this->emptyRequest;
-        $request->attributes = $attributes;
+
+        $request->attributes = new ParameterBag([
+            'action' => $action
+        ]);
 
         $adapter = new ControllerResolverActionResolverAdapter($resolver);
+
         $controller = $adapter->getController($request);
 
         $this->assertTrue(is_callable($controller));
-        $this->assertTrue($controller($request));
     }
 
     /**
      * @test
      */
-    public function getArgumentsReturnsRequest()
+    public function getArguments()
     {
         /* @var ActionResolverInterface $resolver */
         $resolver = $this->getMock(ActionResolverInterface::class);

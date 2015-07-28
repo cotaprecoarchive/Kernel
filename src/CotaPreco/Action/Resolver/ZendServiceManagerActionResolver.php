@@ -27,7 +27,6 @@ namespace CotaPreco\Action\Resolver;
 use CotaPreco\Action\ActionResolverInterface;
 use CotaPreco\Action\Exception\ActionNotExecutableException;
 use CotaPreco\Action\Exception\ActionNotFoundException;
-use CotaPreco\Action\ExecutableHttpActionInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
@@ -38,29 +37,28 @@ final class ZendServiceManagerActionResolver implements ActionResolverInterface
     /**
      * @var ServiceLocatorInterface
      */
-    private $serviceLocator;
+    private $locator;
 
     /**
-     * @param ServiceLocatorInterface $serviceLocator
+     * @param ServiceLocatorInterface $locator
      */
-    public function __construct(ServiceLocatorInterface $serviceLocator)
+    public function __construct(ServiceLocatorInterface $locator)
     {
-        $this->serviceLocator = $serviceLocator;
+        $this->locator = $locator;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function resolve($action)
+    public function __invoke($action)
     {
-        if (! $this->serviceLocator->has($action)) {
+        if (! $this->locator->has($action)) {
             throw new ActionNotFoundException();
         }
 
-        /* @var ExecutableHttpActionInterface $action */
-        $action = $this->serviceLocator->get($action);
+        $action = $this->locator->get($action);
 
-        if (! $action instanceof ExecutableHttpActionInterface) {
+        if (! is_callable($action)) {
             throw new ActionNotExecutableException();
         }
 

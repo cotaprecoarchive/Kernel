@@ -36,5 +36,5 @@ interface ExecutableHttpActionInterface
      * @param  Request $request
      * @return Response
      */
-    public function execute(Request $request);
+    public function __invoke(Request $request);
 }

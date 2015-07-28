@@ -16,26 +16,26 @@ class ZendServiceManagerActionResolverTest extends TestCase
     /**
      * @test
      */
-    public function resolveThrowsActionNotFound()
+    public function throwsActionNotFoundException()
     {
         $this->setExpectedException(ActionNotFoundException::class);
 
-        /* @var ServiceLocatorInterface|\PHPUnit_Framework_MockObject_MockObject $serviceLocator */
-        $serviceLocator = $this->getMock(ServiceLocatorInterface::class);
+        /* @var ServiceLocatorInterface|\PHPUnit_Framework_MockObject_MockObject $locator */
+        $locator = $this->getMock(ServiceLocatorInterface::class);
 
-        $serviceLocator->expects($this->once())
+        $locator->expects($this->once())
             ->method('has')
             ->will($this->returnValue(false));
 
-        $resolver = new ZendServiceManagerActionResolver($serviceLocator);
+        $resolver = new ZendServiceManagerActionResolver($locator);
 
-        $resolver->resolve(null);
+        $resolver(null);
     }
 
     /**
      * @test
      */
-    public function resolveThrowsNotExecutableException()
+    public function throwsActionNotExecutableException()
     {
         $this->setExpectedException(ActionNotExecutableException::class);
 
@@ -52,16 +52,30 @@ class ZendServiceManagerActionResolverTest extends TestCase
 
         $resolver = new ZendServiceManagerActionResolver($serviceLocator);
 
-        $resolver->resolve(null);
+        $resolver(null);
+    }
+
+    /**
+     * @return \callable[][]
+     */
+    public function provideCallables()
+    {
+        return [
+            [
+                function () {
+                }
+            ],
+            [$this->getMock(ExecutableHttpActionInterface::class)]
+        ];
     }
 
     /**
      * @test
+     * @param callable $callable
+     * @dataProvider provideCallables
      */
-    public function resolveReturnsExecutableHttpAction()
+    public function invoke($callable)
     {
-        $executableHttpAction = $this->getMock(ExecutableHttpActionInterface::class);
-
         /* @var ServiceLocatorInterface|\PHPUnit_Framework_MockObject_MockObject $serviceLocator */
         $serviceLocator = $this->getMock(ServiceLocatorInterface::class);
 
@@ -71,13 +85,10 @@ class ZendServiceManagerActionResolverTest extends TestCase
 
         $serviceLocator->expects($this->once())
             ->method('get')
-            ->will($this->returnValue($executableHttpAction));
+            ->will($this->returnValue($callable));
 
         $resolver = new ZendServiceManagerActionResolver($serviceLocator);
 
-        $this->assertInstanceOf(
-            ExecutableHttpActionInterface::class,
-            $resolver->resolve(null)
-        );
+        $this->assertTrue(is_callable($resolver(null)));
     }
 }

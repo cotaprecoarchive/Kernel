@@ -30,8 +30,7 @@ use Symfony\Component\HttpKernel\Controller\ControllerResolverInterface;
 /**
  * @author Andrey K. Vital <andreykvital@gmail.com>
  */
-final class ControllerResolverActionResolverAdapter implements
-    ControllerResolverInterface
+final class ControllerResolverActionResolverAdapter implements ControllerResolverInterface
 {
     /**
      * @var ActionResolverInterface
@@ -47,7 +46,7 @@ final class ControllerResolverActionResolverAdapter implements
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getController(Request $request)
     {
@@ -55,16 +54,14 @@ final class ControllerResolverActionResolverAdapter implements
             return null;
         }
 
-        /* @var ExecutableHttpActionInterface $action */
-        $action = $this->resolver->resolve($request->attributes->get('action'));
+        /* @var callable|ActionResolverInterface $resolver */
+        $resolver = $this->resolver;
 
-        return function (Request $request) use ($action) {
-            return $action->execute($request);
-        };
+        return $resolver($request->attributes->get('action'));
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getArguments(Request $request, $controller)
     {
