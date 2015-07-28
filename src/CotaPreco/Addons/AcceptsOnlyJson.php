@@ -59,12 +59,13 @@ final class AcceptsOnlyJson implements EventSubscriberInterface
     }
 
     /**
-     * @param GetResponseEvent $event
+     * @param  GetResponseEvent $event
+     * @return null
      */
     public function onRequest(GetResponseEvent $event)
     {
         if (! $event->isMasterRequest()) {
-            return;
+            return null;
         }
 
         $accept = AcceptHeader::fromString($event->getRequest()->headers->get('Accept'));
@@ -73,7 +74,7 @@ final class AcceptsOnlyJson implements EventSubscriberInterface
         $acceptsJson = $accept->has('application/json');
 
         if ($acceptsAny || $acceptsJson) {
-            return;
+            return null;
         }
 
         $event->setResponse($this->responseToSend);
