@@ -25,7 +25,6 @@
 namespace CotaPreco\Addons;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
@@ -35,7 +34,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 final class AcceptsJsonRequestBody implements EventSubscriberInterface
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public static function getSubscribedEvents()
     {
@@ -49,10 +48,8 @@ final class AcceptsJsonRequestBody implements EventSubscriberInterface
      */
     public function replaceRequestBody(GetResponseEvent $event)
     {
-        /* @var Request $request */
         $request = $event->getRequest();
 
-        /* @var string[] $acceptableTypes */
         $acceptableTypes = $request->getAcceptableContentTypes();
 
         if (! in_array('application/json', $acceptableTypes, true)) {
