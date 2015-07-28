@@ -49,7 +49,7 @@ final class AcceptsOnlyJson implements EventSubscriberInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public static function getSubscribedEvents()
     {
