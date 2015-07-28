@@ -40,14 +40,14 @@ final class AcceptsJsonRequestBody implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            KernelEvents::REQUEST => ['replaceRequestBodyIfNecessary', 0]
+            KernelEvents::REQUEST => ['replaceRequestBody', 0]
         ];
     }
 
     /**
      * @param GetResponseEvent $event
      */
-    public function replaceRequestBodyIfNecessary(GetResponseEvent $event)
+    public function replaceRequestBody(GetResponseEvent $event)
     {
         /* @var Request $request */
         $request = $event->getRequest();
