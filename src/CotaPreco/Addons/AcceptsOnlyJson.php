@@ -70,10 +70,7 @@ final class AcceptsOnlyJson implements EventSubscriberInterface
 
         $accept = AcceptHeader::fromString($event->getRequest()->headers->get('Accept'));
 
-        $acceptsAny  = $accept->has('*/*');
-        $acceptsJson = $accept->has('application/json');
-
-        if ($acceptsAny || $acceptsJson) {
+        if ($accept->has('*/*') || $accept->has('application/json')) {
             return null;
         }
 

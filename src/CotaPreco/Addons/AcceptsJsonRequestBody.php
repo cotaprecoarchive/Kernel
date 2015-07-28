@@ -44,7 +44,8 @@ final class AcceptsJsonRequestBody implements EventSubscriberInterface
     }
 
     /**
-     * @param GetResponseEvent $event
+     * @param  GetResponseEvent $event
+     * @return null
      */
     public function replaceRequestBody(GetResponseEvent $event)
     {
@@ -53,7 +54,7 @@ final class AcceptsJsonRequestBody implements EventSubscriberInterface
         $acceptableTypes = $request->getAcceptableContentTypes();
 
         if (! in_array('application/json', $acceptableTypes, true)) {
-            return;
+            return null;
         }
 
         $jsonRequestBody = json_decode($request->getContent(), true);
