@@ -32,8 +32,7 @@ use Symfony\Component\HttpFoundation\Request;
 interface ApplicationHttpKernelInterface
 {
     /**
-     * @param  Request $request
-     * @return void
+     * @param Request $request
      */
-    public function handle(Request $request);
+    public function __invoke(Request $request);
 }

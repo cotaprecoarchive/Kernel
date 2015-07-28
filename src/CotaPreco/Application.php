@@ -71,9 +71,9 @@ class Application implements ApplicationHttpKernelInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function handle(Request $request)
+    public function __invoke(Request $request)
     {
         $context = new RequestContext();
         $context->fromRequest($request);
