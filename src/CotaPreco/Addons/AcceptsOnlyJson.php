@@ -41,11 +41,11 @@ final class AcceptsOnlyJson implements EventSubscriberInterface
     private $responseToSend;
 
     /**
-     * @param Response $preferredResponse
+     * @param Response $responseToSend
      */
-    public function __construct(Response $preferredResponse = null)
+    public function __construct(Response $responseToSend = null)
     {
-        $this->responseToSend = $preferredResponse ?: new Response(null, Response::HTTP_NOT_ACCEPTABLE);
+        $this->responseToSend = $responseToSend ?: new Response(null, Response::HTTP_NOT_ACCEPTABLE);
     }
 
     /**
